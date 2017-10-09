@@ -1,0 +1,27 @@
+{
+  "name": "something",
+  "keywords": [],
+  "version": "1.0.0",
+  "ebam": {
+    "entry": "src/index.js",
+    "test": {
+      "dest": "test/code.js",
+      "src": "test/src.js"
+    },
+    "transforms": {
+      "dangerousForOf": false,
+      "dangerousTaggedTemplateString": false
+    }
+  },
+  "scripts": {
+    "build": "ebam",
+    "test": "echo \"no test\""
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "description": "A thing",
+  "author": "Quentin Engles <hollowdoor99@gmail.com> (https://hollowdoor.github.io)"
+}
