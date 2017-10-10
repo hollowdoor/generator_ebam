@@ -176,10 +176,11 @@ Hit the enter key to continue
             }
         }
 
-        let testdir, dest, src;
+        let testdir, dest, src, testSrc;
 
 
         if(this.answers.testBuild){
+            testSrc = this.answers.test.dest;
             testdir = this.answers.test.dir;
             dest = [testdir, this.answers.test.dest].join('/');
             src = [testdir, this.answers.test.src].join('/');
@@ -209,7 +210,7 @@ Hit the enter key to continue
                     this.fs.copyTpl(
                         this.templatePath('test/index.html'),
                         this.destinationPath([testdir, 'index.html'].join('/')),
-                      { script: dest }
+                      { script: testSrc }
                     );
                 }
 

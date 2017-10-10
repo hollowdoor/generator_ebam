@@ -35,6 +35,13 @@ describe('ebam:app', ()=>{
               assert.file(expected);
         });
 
+        it('has test script', ()=>{
+            assert.fileContent(
+                'test/index.html',
+                '<script src="code.js"></script>'
+            );
+        });
+
         it('creates package.json properties', ()=>{
               assert.jsonFileContent(
                   'package.json', {
