@@ -4,7 +4,7 @@
 Install
 ---
 
-`npm install <% if(global) %> -g <% } %> <%= name %>`
+`npm install <% if(global) { %>-g<% } %> <%= name %>`
 
 Usage
 ---

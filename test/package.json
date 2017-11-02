@@ -1,27 +1,31 @@
 {
-  "name": "something",
-  "keywords": [],
+  "name": "thing",
+  "description": "A thing",
+  "keywords": [
+    "one,two",
+    "one",
+    "two"
+  ],
   "version": "1.0.0",
-  "ebam": {
-    "entry": "src/index.js",
-    "test": {
-      "dest": "test/code.js",
-      "src": "test/src.js"
-    },
-    "transforms": {
-      "dangerousForOf": false,
-      "dangerousTaggedTemplateString": false
-    }
-  },
   "scripts": {
     "build": "ebam",
     "test": "echo \"no test\""
   },
   "license": "MIT",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hollowdoor/generator_ebam.git"
   },
-  "description": "A thing",
+  "ebam": {
+    "entry": "src/index.js",
+    "transforms": {
+      "dangerousForOf": false,
+      "dangerousTaggedTemplateString": false
+    },
+    "test": {
+      "dest": "test/code.js",
+      "src": "test/src.js"
+    }
+  },
   "author": "Quentin Engles <hollowdoor99@gmail.com> (https://hollowdoor.github.io)"
 }

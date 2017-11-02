@@ -16,16 +16,19 @@ module.exports = class extends Generator {
     initializing(){
         const pkg = this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
         this.props = {};
-        this.pkg.name = pkg.name || this.appname; // Default to current folder name
-        this.pkg.description = pkg.description || '';
+
         const keywords = pkg.keywords || [];
-        this.pkg.keywords = keywords.length
-            ? keywords.join(',') : '';
-        this.pkg.version = pkg.version || '1.0.0';
         this.pkg.scripts = this.pkg.scripts || {};
         this.pkg.scripts.build = 'ebam';
         this.pkg.scripts.test = this.pkg.scripts.test || 'echo "no test"';
-        this.pkg.license = this.pkg.licence || 'MIT';
+
+        extend(this.pkg, {
+            name: pkg.name || this.appname,
+            description: pkg.description || '',
+            keywords: keywords.length ? keywords.join(',') : '',
+            version: pkg.version || '1.0.0',
+            license: pkg.license || 'MIT'
+        });
 
         return gitRemoteOriginUrl().then(url => {
             if(this.pkg.repository === void 0){
@@ -132,17 +135,28 @@ Hit the enter key to continue
        },{
          type    : 'confirm',
          name    : 'extraFiles',
-         message : 'Create README.md, .gitignore, .npmignore files?',
+         message : 'Create .gitignore, .npmignore files?',
          default : true
-       },{
+       }, {
+         type    : 'confirm',
+         name    : 'readme',
+         message : 'Create README.md file?',
+         default : true
+       }, {
+         type    : 'confirm',
+         name    : 'globalInstall',
+         message : 'Is this module meant to be global?',
+         default : false,
+         when(answers){
+             return answers.readme;
+         }
+       }, {
          type    : 'input',
          name    : 'license',
          message : 'Project license?',
          default : this.pkg.license
       }]).then((answers) => {
             this.answers = answers;
-          //this.log('app name', answers.name);
-          //this.log('cool feature', answers.cool);
         });
     }
     writing(){
@@ -194,7 +208,6 @@ Hit the enter key to continue
         this.log(prettyjson.render(pkg, {
             dashColor: 'magenta'
         }));
-        //this.log('\n'+JSON.stringify(pkg, null, '  ')+'\n');
 
         return this.prompt([{
           type    : 'confirm',
@@ -214,13 +227,19 @@ Hit the enter key to continue
                     );
                 }
 
-
-
                 this.fs.writeJSON(this.destinationPath('package.json'), pkg);
 
                 this.fs.write(this.destinationPath(this.answers.entry), '');
+
+                if(this.answers.readme){
+                    this.fs.copyTpl(
+                        this.templatePath('README.md'),
+                        this.destinationPath('README.md'),
+                      this.answers
+                    );
+                }
+
                 if(this.answers.extraFiles){
-                    this.fs.write(this.destinationPath('README.md'), '');
                     this.fs.copy(
                         this.templatePath('gitignore'),
                         this.destinationPath('.gitignore')
